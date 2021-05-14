@@ -9,7 +9,7 @@ A classic recreation of the game Checkers. Two players battle to eliminate as ma
 ## Tech Stack
 ____
 
-The game will JavaScript heavy, but to style the page I plan on using Bootstrap or Tailwind CSS.
+The game will use HTML, CSS, and JavaScript.
 
 ## MVP
 ____
@@ -40,6 +40,8 @@ ___
 [] Simple AI that moves pieces at random with no strategy
 
 [] Minimax AI that tries to beat the player
+
+[] Add styling (Bootstrap or Tailwind CSS)
 
 ## Wire Frames
 ___

@@ -1,0 +1,28 @@
+* {
+    margin: 0 auto;
+    text-align: center;
+}
+
+#container {
+    margin: 0 auto;
+    display: grid;
+    width: 800px;
+    height: 800px;
+    grid-template: repeat(8, 1fr) / repeat(8, 1fr);
+}
+
+#container div {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    font-size: 50px;
+}
+
+.gameTile {
+    background-color: black;
+    color: white;
+}
+
+.noAccess {
+    background-color: red;
+}

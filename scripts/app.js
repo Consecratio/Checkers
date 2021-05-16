@@ -6,7 +6,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // TEST - how to track amount of pieces on the board
     let red = document.getElementsByClassName("red").length
-    console.log(red)
+    console.log(`Number of Red pieces: ${red}`)
+    let blk = document.getElementsByClassName("blk").length
+    console.log(`Number of Blk pieces: ${blk}`)
     // ETST - how to track amount of pieces on the board
     
     // ~ FUNCTIONS ~ //
@@ -64,22 +66,60 @@ window.addEventListener("DOMContentLoaded", () => {
             let mvUpLeft = loc - 9
             let mvDownRight = loc + 9
             let mvDownLeft = loc + 7
+            let mvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
+            let dblMvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
+            let movesAvail = []
             // check available moves
-            if(tilesArr[mvUpRight].className == "gameTile" && tilesArr[mvUpRight].firstChild == null) {
-                console.log("Can move up right, to empty spot")
+            for(let i = 0; i < mvDirArr.length; i++) {
+                if(tilesArr[mvDirArr[i]] == null) {
+                    continue
+                } else if(tilesArr[mvDirArr[i]].className == "gameTile" && tilesArr[mvDirArr[i]].firstChild == null) {
+                    movesAvail.push(tilesArr[mvDirArr[i]])
+                } else if(tilesArr[mvDirArr[i]].className == "gameTile" && tilesArr[mvDirArr[i]].firstChild != null && tilesArr[mvDirArr[i]].firstChild.className != target.path[0].className) {
+                    // space is occupied by enemy
+                    console.log("Space occupied by enemy")
+                    dblMvDirArr = [dblMvDirArr[0] - 7, dblMvDirArr[1] - 9, dblMvDirArr[2] + 9, dblMvDirArr[3] +7]
+                    // do another loop with double directional values
+                    for(let j = 0; j < dblMvDirArr.length; j++) {
+                        if(tilesArr[dblMvDirArr[i]] == null) {
+                            continue
+                        } else if(tilesArr[dblMvDirArr[i]].className == "gameTile" && tilesArr[dblMvDirArr[i]].firstChild == null) {
+                            movesAvail.push(tilesArr[dblMvDirArr[i]])
+                        }
+                    }
+                }
             }
-            if(tilesArr[mvUpLeft].className == "gameTile" && tilesArr[mvUpLeft].firstChild == null) {
-                console.log("Can move up left, to empty spot")
+            
+            if(movesAvail.length == 0){
+                console.log("No moves available")
             }
-            if(tilesArr[mvDownRight].className == "gameTile" && tilesArr[mvDownRight].firstChild == null) {
-                console.log("Can move down right, to empty spot")
+
+            console.log(movesAvail) // TEST - printout to see if movesAvail is correct
+
+            // iterate through movesAvail and setup event listeners
+            for(let i = 0; i < movesAvail.length; i++) {
+                // movesAvail[i].addEventListener("click", (newTarget) => {
+                //     newTarget.path[0].appendChild(target.path[0])
+                // }, {once: true})
+                movesAvail[i].addEventListener("click", divEventAdd, true)
             }
-            if(tilesArr[mvDownLeft].className == "gameTile" && tilesArr[mvDownLeft].firstChild == null) {
-                console.log("Can move down left, to empty spot")
-            } 
-            // TODO: figure out how to handle zero moves
-            // TODO: figure out jumps
         })
         tileDiv.appendChild(newImg)
     }
+
+    function divEventAdd(newTarget) {
+        // add logic to handle a player piece moving to this location
+        // newTarget.path[0].appendChild(target.path[0])
+        console.log(newTarget)
+        divEventRemove()
+    }
+
+    function divEventRemove() {
+        for(let i = 0; i < tilesArr.length; i++) {
+            tilesArr[i].removeEventListener("click", divEventAdd, true)
+        }
+    }
 })
+
+// TODO: figure out how to handle zero moves
+// TODO: figure out jumps

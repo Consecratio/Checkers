@@ -7,9 +7,6 @@ body {
     background-image: url(../img/greenBackground.jpg);
     background-size: auto;
     color: white;
-    -webkit-text-fill-color: white;
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: black;
 }
 
 #container {
@@ -35,8 +32,26 @@ body {
     background-color: red;
 }
 
+#gameOver {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 5em;
+}
+
 h1 {
     font-size: 60px;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
 }
 
 p {
@@ -45,4 +60,13 @@ p {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 30px;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+}
+
+button {
+    font-size: 30px;
+    margin: 20px;
+    padding: 10px;
 }

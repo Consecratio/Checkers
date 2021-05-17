@@ -2,6 +2,8 @@ window.addEventListener("DOMContentLoaded", () => {
     // global variables
     let tilesArr = []
     let pieceToMove
+    let enemiesToJump = []
+    let enemiesLoc = []
     
     setupGameBoard()
 
@@ -15,6 +17,13 @@ window.addEventListener("DOMContentLoaded", () => {
     // ~ FUNCTIONS ~ //
     function startGame() {
         
+    }
+
+    function trackScore() {
+        red = document.getElementsByClassName("red").length
+        console.log(`Number of Red pieces: ${red}`)
+        blk = document.getElementsByClassName("blk").length
+        console.log(`Number of Blk pieces: ${blk}`)
     }
     
     // creates divs to represent the gameboard, sets up div classes as well
@@ -60,77 +69,87 @@ window.addEventListener("DOMContentLoaded", () => {
             return
         }
 
-        newImg.addEventListener("click", (target) => {
-            // clear board of event listeners to stop player from moving to location they can't move to
-            divEventRemove()
-            // find location on board
-            let loc = Number(target.path[1].id)
-            // possible movements
-            let directionalArr = [-7, -9, 9, 7] // TEST - fixing second loop when finding an enemy
-            let mvUpRight = loc - 7
-            let mvUpLeft = loc - 9
-            let mvDownRight = loc + 9
-            let mvDownLeft = loc + 7
-            // let mvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
-            // let dblMvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
-            let mvDirArr = []
-            let dblMvDirArr = []
-            let movesAvail = []
+        newImg.addEventListener("click", chipFunc)
+        tileDiv.appendChild(newImg)
+    }
 
-            // check if piece is kinged
-            let pieceKinged = false
+    function chipFunc(target) {
+        // clear board of event listeners to stop player from moving to location they can't move to
+        divEventRemove()
 
-            if(pieceKinged == false && target.path[0].className == 'red') {
-                mvDirArr = [mvDownRight, mvDownLeft]
-                dblMvDirArr = [mvDownRight, mvDownLeft]
-                // flip directionalArr
-                directionalArr = [directionalArr[2], directionalArr[3], directionalArr[0], directionalArr[1]]
-            } else if(pieceKinged == false && target.path[0].className == 'blk') {
-                mvDirArr = [mvUpRight, mvUpLeft]
-                dblMvDirArr = [mvUpRight, mvUpLeft]
-            }
+        // find location on board
+        let loc = Number(target.path[1].id)
 
-            // find available moves
-            for(let i = 0; i < mvDirArr.length; i++) {
-                if(tilesArr[mvDirArr[i]] == null) {
+        // possible movements
+        let directionalArr = [-7, -9, 9, 7] // TEST - fixing second loop when finding an enemy
+        let mvUpRight = loc - 7
+        let mvUpLeft = loc - 9
+        let mvDownRight = loc + 9
+        let mvDownLeft = loc + 7
+        // let mvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft] // MIGHT NOT NEED
+        // let dblMvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft] // MIGHT NOT NEED
+        let mvDirArr = []
+        let dblMvDirArr = []
+        let movesAvail = []
+
+        // check if piece is kinged
+        let pieceKinged = false
+
+        if(pieceKinged == false && target.path[0].className == 'red') {
+            mvDirArr = [mvDownRight, mvDownLeft]
+            dblMvDirArr = [mvDownRight, mvDownLeft]
+            // flip directionalArr
+            directionalArr = [directionalArr[2], directionalArr[3], directionalArr[0], directionalArr[1]]
+        } else if(pieceKinged == false && target.path[0].className == 'blk') {
+            mvDirArr = [mvUpRight, mvUpLeft]
+            dblMvDirArr = [mvUpRight, mvUpLeft]
+        }
+
+        // find available moves
+        for(let i = 0; i < mvDirArr.length; i++) {
+            if(tilesArr[mvDirArr[i]] == null) {
+                continue
+            } else if(tilesArr[mvDirArr[i]].className == "gameTile" && tilesArr[mvDirArr[i]].firstChild == null) {
+                movesAvail.push(tilesArr[mvDirArr[i]])
+            } else if(tilesArr[mvDirArr[i]].className == "gameTile" && tilesArr[mvDirArr[i]].firstChild != null && tilesArr[mvDirArr[i]].firstChild.className != target.path[0].className) {
+                // space is occupied by enemy
+                // double distance to see if spot past enemy is open
+                console.log(tilesArr[mvDirArr[i] + directionalArr[i]])
+                if(tilesArr[mvDirArr[i] + directionalArr[i]] == null) {
                     continue
-                } else if(tilesArr[mvDirArr[i]].className == "gameTile" && tilesArr[mvDirArr[i]].firstChild == null) {
-                    movesAvail.push(tilesArr[mvDirArr[i]])
-                } else if(tilesArr[mvDirArr[i]].className == "gameTile" && tilesArr[mvDirArr[i]].firstChild != null && tilesArr[mvDirArr[i]].firstChild.className != target.path[0].className) {
-                    // space is occupied by enemy
-                    // double distance to see if spot past enemy is open
-                    console.log(tilesArr[mvDirArr[i] + directionalArr[i]])
-                    if(tilesArr[mvDirArr[i] + directionalArr[i]] == null) {
-                        continue
-                    } else if(tilesArr[mvDirArr[i] + directionalArr[i]].className == "gameTile" && tilesArr[mvDirArr[i] + directionalArr[i]].firstChild == null) {
-                        console.log('found a spot')
-                        movesAvail.push(tilesArr[mvDirArr[i] + directionalArr[i]])
-                    }
+                } else if(tilesArr[mvDirArr[i] + directionalArr[i]].className == "gameTile" && tilesArr[mvDirArr[i] + directionalArr[i]].firstChild == null) {
+                    movesAvail.push(tilesArr[mvDirArr[i] + directionalArr[i]])
+                    // push enemy object and location to an array
+                    enemiesToJump.push(tilesArr[mvDirArr[i]].firstChild)
+                    enemiesLoc.push(tilesArr[mvDirArr[i] + directionalArr[i]])
                 }
             }
-            
-            if(movesAvail.length == 0){
-                console.log("No moves available")
-            } else {
-                pieceToMove = target.path[0]
-            }
+        }
+        
+        if(movesAvail.length == 0){
+            console.log("No moves available")
+        } else {
+            pieceToMove = target.path[0]
+        }
 
-            console.log(movesAvail) // TEST - printout to see if movesAvail is correct
+        console.log(movesAvail) // TEST - printout to see if movesAvail is correct
 
-            // iterate through movesAvail and setup event listeners
-            for(let i = 0; i < movesAvail.length; i++) {
-                // movesAvail[i].addEventListener("click", (newTarget) => {
-                //     newTarget.path[0].appendChild(target.path[0])
-                // }, {once: true})
-                movesAvail[i].addEventListener("click", divEventAdd, true)
-            }
-        })
-        tileDiv.appendChild(newImg)
+        // iterate through movesAvail and setup event listeners
+        for(let i = 0; i < movesAvail.length; i++) {
+            movesAvail[i].addEventListener("click", divEventAdd, true)
+        }
     }
 
     function divEventAdd(newTarget) {
         // add logic to handle a player piece moving to this location
         newTarget.path[0].appendChild(pieceToMove)
+        for(let i = 0; i < enemiesLoc.length; i++) {
+            if(newTarget.path[0] == enemiesLoc[i]) {
+                enemiesToJump[i].remove()
+                enemiesToJump = []
+                enemiesLoc = []
+            }
+        }
         divEventRemove()
     }
 
@@ -138,6 +157,7 @@ window.addEventListener("DOMContentLoaded", () => {
         for(let i = 0; i < tilesArr.length; i++) {
             tilesArr[i].removeEventListener("click", divEventAdd, true)
         }
+        trackScore()
     }
 })
 

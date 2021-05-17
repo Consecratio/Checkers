@@ -13,6 +13,9 @@ window.addEventListener("DOMContentLoaded", () => {
     let blk = document.getElementsByClassName("blk").length
     console.log(`Number of Blk pieces: ${blk}`)
     // ETST - how to track amount of pieces on the board
+
+    document.getElementById("player1").innerText = `Black Pieces: ${blk}`
+    document.getElementById("player2").innerText = `Red Pieces: ${red}`
     
     // ~ FUNCTIONS ~ //
     function startGame() {
@@ -81,13 +84,13 @@ window.addEventListener("DOMContentLoaded", () => {
         let loc = Number(target.path[1].id)
 
         // possible movements
-        let directionalArr = [-7, -9, 9, 7] // TEST - fixing second loop when finding an enemy
+        let directionalArr = [-7, -9, 9, 7]
+        // TEST - might not be needed
         let mvUpRight = loc - 7
         let mvUpLeft = loc - 9
         let mvDownRight = loc + 9
         let mvDownLeft = loc + 7
-        // let mvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft] // MIGHT NOT NEED
-        // let dblMvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft] // MIGHT NOT NEED
+        // ETST - might not be needed
         let mvDirArr = []
         let dblMvDirArr = []
         let movesAvail = []
@@ -161,5 +164,11 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 })
 
-// TODO: figure out how to handle zero moves
-// TODO: figure out jumps
+// MVP
+// [] A functional menu for starting the game
+// [] Having win conditions
+// [X] Having players "consume" or "jump" enemy pieces
+// [X] Limiting player movements so player cannot go out of bounds of the board,
+//    or to a space they shouldn't be allowed to occupy (like moving backwards at the beginning)
+// [] Allowing players to be "Kinged" to let their pieces go in reverse direction
+// [] Alternating turns between Player 1 and Player 2

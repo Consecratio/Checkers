@@ -1,6 +1,7 @@
 window.addEventListener("DOMContentLoaded", () => {
     // global variables
     let tilesArr = []
+    let pieceToMove
     
     setupGameBoard()
 
@@ -60,16 +61,36 @@ window.addEventListener("DOMContentLoaded", () => {
         }
 
         newImg.addEventListener("click", (target) => {
+            // clear board of event listeners to stop player from moving to location they can't move to
+            divEventRemove()
             // find location on board
             let loc = Number(target.path[1].id)
+            // possible movements
+            let directionalArr = [-7, -9, 9, 7] // TEST - fixing second loop when finding an enemy
             let mvUpRight = loc - 7
             let mvUpLeft = loc - 9
             let mvDownRight = loc + 9
             let mvDownLeft = loc + 7
-            let mvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
-            let dblMvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
+            // let mvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
+            // let dblMvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
+            let mvDirArr = []
+            let dblMvDirArr = []
             let movesAvail = []
-            // check available moves
+
+            // check if piece is kinged
+            let pieceKinged = false
+
+            if(pieceKinged == false && target.path[0].className == 'red') {
+                mvDirArr = [mvDownRight, mvDownLeft]
+                dblMvDirArr = [mvDownRight, mvDownLeft]
+                // flip directionalArr
+                directionalArr = [directionalArr[2], directionalArr[3], directionalArr[0], directionalArr[1]]
+            } else if(pieceKinged == false && target.path[0].className == 'blk') {
+                mvDirArr = [mvUpRight, mvUpLeft]
+                dblMvDirArr = [mvUpRight, mvUpLeft]
+            }
+
+            // find available moves
             for(let i = 0; i < mvDirArr.length; i++) {
                 if(tilesArr[mvDirArr[i]] == null) {
                     continue
@@ -77,21 +98,21 @@ window.addEventListener("DOMContentLoaded", () => {
                     movesAvail.push(tilesArr[mvDirArr[i]])
                 } else if(tilesArr[mvDirArr[i]].className == "gameTile" && tilesArr[mvDirArr[i]].firstChild != null && tilesArr[mvDirArr[i]].firstChild.className != target.path[0].className) {
                     // space is occupied by enemy
-                    console.log("Space occupied by enemy")
-                    dblMvDirArr = [dblMvDirArr[0] - 7, dblMvDirArr[1] - 9, dblMvDirArr[2] + 9, dblMvDirArr[3] +7]
-                    // do another loop with double directional values
-                    for(let j = 0; j < dblMvDirArr.length; j++) {
-                        if(tilesArr[dblMvDirArr[i]] == null) {
-                            continue
-                        } else if(tilesArr[dblMvDirArr[i]].className == "gameTile" && tilesArr[dblMvDirArr[i]].firstChild == null) {
-                            movesAvail.push(tilesArr[dblMvDirArr[i]])
-                        }
+                    // double distance to see if spot past enemy is open
+                    console.log(tilesArr[mvDirArr[i] + directionalArr[i]])
+                    if(tilesArr[mvDirArr[i] + directionalArr[i]] == null) {
+                        continue
+                    } else if(tilesArr[mvDirArr[i] + directionalArr[i]].className == "gameTile" && tilesArr[mvDirArr[i] + directionalArr[i]].firstChild == null) {
+                        console.log('found a spot')
+                        movesAvail.push(tilesArr[mvDirArr[i] + directionalArr[i]])
                     }
                 }
             }
             
             if(movesAvail.length == 0){
                 console.log("No moves available")
+            } else {
+                pieceToMove = target.path[0]
             }
 
             console.log(movesAvail) // TEST - printout to see if movesAvail is correct
@@ -109,8 +130,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function divEventAdd(newTarget) {
         // add logic to handle a player piece moving to this location
-        // newTarget.path[0].appendChild(target.path[0])
-        console.log(newTarget)
+        newTarget.path[0].appendChild(pieceToMove)
         divEventRemove()
     }
 

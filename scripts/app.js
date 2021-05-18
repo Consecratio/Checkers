@@ -6,6 +6,9 @@ window.addEventListener("DOMContentLoaded", () => {
     let enemiesLoc = []
     let playerTurn = "blk"
     
+    // setup play button
+    document.getElementById("playButton").addEventListener("click", startButton)
+
     setupGameBoard()
 
     // track amount of pieces on the board
@@ -101,7 +104,8 @@ window.addEventListener("DOMContentLoaded", () => {
             let movesAvail = []
     
             // check if piece is kinged
-            let pieceKinged = false
+            // TEST - was originally = false, will now get set to the return of function isKinged()
+            let pieceKinged = isKinged(loc, target.path[0].className)
     
             if(pieceKinged == false && target.path[0].className == 'red') {
                 mvDirArr = [mvDownRight, mvDownLeft]
@@ -173,6 +177,17 @@ window.addEventListener("DOMContentLoaded", () => {
         divEventRemove()
     }
 
+    function isKinged(loc, pieceColor) {
+        if(pieceColor == "blk" && loc < 7) {
+            console.log("BLK KINGED")
+            return true
+        } else if(pieceColor == "red" && loc > 56) {
+            console.log("RED KINGED")
+            return true
+        }
+        return false
+    }
+
     function divEventRemove() {
         for(let i = 0; i < tilesArr.length; i++) {
             tilesArr[i].removeEventListener("click", divEventAdd, true)
@@ -185,10 +200,15 @@ window.addEventListener("DOMContentLoaded", () => {
             movesAvail[i].classList.add("toMove")
         }
     }
+
+    function startButton() {
+        // change gameStart style display to none
+        document.getElementById("gameStart").style.display = "none"
+    }
 })
 
 // MVP
-// [] A functional menu for starting the game
+// [X] A functional menu for starting the game
 // [X] Having win conditions
 // [X] Having players "consume" or "jump" enemy pieces
 // [X] Limiting player movements so player cannot go out of bounds of the board,

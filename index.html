@@ -7,16 +7,21 @@
     <script src="./scripts/app.js"></script>
 </head>
 <body>
-    <div id="gameOver">
+    <div id="gameOver" class="gameMessages">
         <div>GAME OVER</div>
         <div id="winningPlayer"></div>
         <button onclick="window.location.reload()">Play Again</button>
+    </div>
+    <div id="gameStart" class="gameMessages">
+        <button id="playButton">PUSH TO START</button>
     </div>
     <h1>Checkers</h1>
     <div class="scores">
         <p id="player1"></p>
         <p id="player2"></p>
     </div>
-    <div id="container"></div>
+    <div id="container">
+
+    </div>
 </body>
 </html>

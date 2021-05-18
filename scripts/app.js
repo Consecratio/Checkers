@@ -87,7 +87,8 @@ window.addEventListener("DOMContentLoaded", () => {
     function chipFunc(target) {
         // clear board of event listeners to stop player from moving to location they can't move to
         divEventRemove()
-        if(playerTurn == target.path[0].className) {
+        if(target.path[0].classList.contains(playerTurn)) {
+            console.log("CLICK")
             // find location on board
             let loc = Number(target.path[1].id)
     
@@ -105,16 +106,20 @@ window.addEventListener("DOMContentLoaded", () => {
     
             // check if piece is kinged
             // TEST - was originally = false, will now get set to the return of function isKinged()
-            let pieceKinged = isKinged(loc, target.path[0].className)
+            let pieceKinged = isKinged(loc, target.path[0])
     
-            if(pieceKinged == false && target.path[0].className == 'red') {
+            if(pieceKinged == false && target.path[0].classList.contains('red')) {
                 mvDirArr = [mvDownRight, mvDownLeft]
                 dblMvDirArr = [mvDownRight, mvDownLeft]
                 // flip directionalArr
                 directionalArr = [directionalArr[2], directionalArr[3], directionalArr[0], directionalArr[1]]
-            } else if(pieceKinged == false && target.path[0].className == 'blk') {
+            } else if(pieceKinged == false && target.path[0].classList.contains('blk')) {
                 mvDirArr = [mvUpRight, mvUpLeft]
                 dblMvDirArr = [mvUpRight, mvUpLeft]
+            } else {
+                // TEST - this will handle the pieces being kinged
+                mvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
+                dblMvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
             }
     
             // find available moves
@@ -171,18 +176,26 @@ window.addEventListener("DOMContentLoaded", () => {
         } else {
             playerTurn = "blk"
         }
+        // check for kings
+        isKinged(Number(newTarget.path[0].id), pieceToMove)
         // check for winners
         trackScore()
         // remove event listeners
         divEventRemove()
     }
 
-    function isKinged(loc, pieceColor) {
-        if(pieceColor == "blk" && loc < 7) {
-            console.log("BLK KINGED")
+    function isKinged(loc, piece) {
+        if(piece.classList.contains("kinged")) {
+            console.log("Blk was already kinged")
             return true
-        } else if(pieceColor == "red" && loc > 56) {
+        }
+        if(piece.className == "blk" && loc < 7) {
+            console.log("BLK KINGED")
+            piece.classList.add("kinged")
+            return true
+        } else if(piece.className == "red" && loc > 56) {
             console.log("RED KINGED")
+            piece.classList.add("kinged")
             return true
         }
         return false
@@ -213,5 +226,5 @@ window.addEventListener("DOMContentLoaded", () => {
 // [X] Having players "consume" or "jump" enemy pieces
 // [X] Limiting player movements so player cannot go out of bounds of the board,
 //    or to a space they shouldn't be allowed to occupy (like moving backwards at the beginning)
-// [] Allowing players to be "Kinged" to let their pieces go in reverse direction
+// [X] Allowing players to be "Kinged" to let their pieces go in reverse direction
 // [X] Alternating turns between Player 1 and Player 2

@@ -24,9 +24,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function trackScore() {
         red = document.getElementsByClassName("red").length
-        console.log(`Number of Red pieces: ${red}`)
+        console.log(`Number of Red pieces: ${red}`) // DELETE
         blk = document.getElementsByClassName("blk").length
-        console.log(`Number of Blk pieces: ${blk}`)
+        console.log(`Number of Blk pieces: ${blk}`) // DELETE
 
         if(red == 0) {
             document.getElementById("winningPlayer").innerText = "Black wins!"
@@ -88,7 +88,6 @@ window.addEventListener("DOMContentLoaded", () => {
         // clear board of event listeners to stop player from moving to location they can't move to
         divEventRemove()
         if(target.path[0].classList.contains(playerTurn)) {
-            console.log("CLICK")
             // find location on board
             let loc = Number(target.path[1].id)
     
@@ -131,7 +130,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 } else if(tilesArr[mvDirArr[i]].className == "gameTile" && tilesArr[mvDirArr[i]].firstChild != null && tilesArr[mvDirArr[i]].firstChild.className != target.path[0].className) {
                     // space is occupied by enemy
                     // double distance to see if spot past enemy is open
-                    console.log(tilesArr[mvDirArr[i] + directionalArr[i]])
+                    console.log(tilesArr[mvDirArr[i] + directionalArr[i]]) // DELETE
                     if(tilesArr[mvDirArr[i] + directionalArr[i]] == null) {
                         continue
                     } else if(tilesArr[mvDirArr[i] + directionalArr[i]].className == "gameTile" && tilesArr[mvDirArr[i] + directionalArr[i]].firstChild == null) {
@@ -144,7 +143,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
             
             if(movesAvail.length == 0){
-                console.log("No moves available")
+                alert("That piece has no moves available. ") // DELETE
             } else {
                 pieceToMove = target.path[0]
                 availableLocations(movesAvail)
@@ -186,15 +185,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function isKinged(loc, piece) {
         if(piece.classList.contains("kinged")) {
-            console.log("Blk was already kinged")
+            console.log("Blk was already kinged") // DELETE
             return true
         }
         if(piece.className == "blk" && loc < 7) {
-            console.log("BLK KINGED")
+            console.log("BLK KINGED") // DELETE
             piece.classList.add("kinged")
             return true
         } else if(piece.className == "red" && loc > 56) {
-            console.log("RED KINGED")
+            console.log("RED KINGED") // DELETE
             piece.classList.add("kinged")
             return true
         }

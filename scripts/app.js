@@ -8,12 +8,11 @@ window.addEventListener("DOMContentLoaded", () => {
     
     setupGameBoard()
 
-    // TEST - how to track amount of pieces on the board
+    // track amount of pieces on the board
     let red = document.getElementsByClassName("red").length
-    console.log(`Number of Red pieces: ${red}`)
+    console.log(`Number of Red pieces: ${red}`) // DELETE
     let blk = document.getElementsByClassName("blk").length
-    console.log(`Number of Blk pieces: ${blk}`)
-    // ETST - how to track amount of pieces on the board
+    console.log(`Number of Blk pieces: ${blk}`) // DELETE
 
     document.getElementById("player1").innerText = `Black Pieces: ${blk}`
     document.getElementById("player2").innerText = `Red Pieces: ${red}`
@@ -139,6 +138,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 console.log("No moves available")
             } else {
                 pieceToMove = target.path[0]
+                availableLocations(movesAvail)
             }
     
             console.log(movesAvail) // TEST - printout to see if movesAvail is correct
@@ -167,22 +167,31 @@ window.addEventListener("DOMContentLoaded", () => {
         } else {
             playerTurn = "blk"
         }
+        // check for winners
+        trackScore()
+        // remove event listeners
         divEventRemove()
     }
 
     function divEventRemove() {
         for(let i = 0; i < tilesArr.length; i++) {
             tilesArr[i].removeEventListener("click", divEventAdd, true)
+            tilesArr[i].classList.remove("toMove")
         }
-        trackScore()
+    }
+
+    function availableLocations(movesAvail) {
+        for(let i = 0; i < movesAvail.length; i++) {
+            movesAvail[i].classList.add("toMove")
+        }
     }
 })
 
 // MVP
 // [] A functional menu for starting the game
-// [] Having win conditions
+// [X] Having win conditions
 // [X] Having players "consume" or "jump" enemy pieces
 // [X] Limiting player movements so player cannot go out of bounds of the board,
 //    or to a space they shouldn't be allowed to occupy (like moving backwards at the beginning)
 // [] Allowing players to be "Kinged" to let their pieces go in reverse direction
-// [] Alternating turns between Player 1 and Player 2
+// [X] Alternating turns between Player 1 and Player 2

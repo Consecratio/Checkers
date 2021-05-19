@@ -4,8 +4,8 @@
 }
 
 body {
-    background-image: url(../img/greenBackground.jpg);
-    background-size: auto;
+    background-image: url(../img/synthwave_bg.jpg);
+    background-size: cover;
     color: white;
 }
 
@@ -26,10 +26,12 @@ body {
 
 .gameTile {
     background-color: black;
+    box-shadow: 0 0 10px 4px #D30CB8 inset;
 }
 
 .noAccess {
-    background-color: red;
+    background-color: white;
+    box-shadow: 0 0 10px 4px #D30CB8 inset;
 }
 
 #gameOver {
@@ -79,5 +81,5 @@ button {
 }
 
 .toMove {
-    box-shadow: 0 0 2px 3px #fffF00 inset;
+    box-shadow: 0 0 10px 4px rgb(39, 228, 227) inset;
 }

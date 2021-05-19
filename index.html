@@ -6,14 +6,18 @@
     <link rel="stylesheet" href="./styles/style.css">
     <script src="./scripts/app.js"></script>
 </head>
-<body>
+<body class="regBg">
     <div id="gameOver" class="gameMessages">
         <div>GAME OVER</div>
         <div id="winningPlayer"></div>
         <button onclick="window.location.reload()">Play Again</button>
     </div>
     <div id="gameStart" class="gameMessages">
-        <!-- <div>PUSH TO START</div> -->
+        <div>Pick Theme</div>
+        <div>
+            <button id="regularTheme" class="themeButton" value="regBg" autofocus>Standard Theme</button>
+            <button id="synthTheme" class="themeButton" value="synth">Synthwave Theme</button>
+        </div>
         <button id="playButton">PUSH TO START</button>
     </div>
     <h1>Checkers</h1>

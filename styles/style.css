@@ -4,7 +4,6 @@
 }
 
 body {
-    background-image: url(../img/synth_theme/synthwave_bg.jpg);
     background-size: cover;
     color: white;
 }
@@ -26,12 +25,10 @@ body {
 
 .gameTile {
     background-color: black;
-    box-shadow: 0 0 10px 4px #D30CB8 inset;
 }
 
 .noAccess {
-    background-color: white;
-    box-shadow: 0 0 10px 4px #D30CB8 inset;
+    background-color: red;
 }
 
 #gameOver {
@@ -48,7 +45,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .75);
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -81,10 +78,57 @@ button {
 }
 
 .toMove {
-    box-shadow: 0 0 10px 4px rgb(39, 228, 227) inset;
+    box-shadow: 0 0 2px 3px #fffF00 inset;
+}
+
+.themeButton {
+    border: 0;
+    color: black;
+}
+
+#regularTheme {
+    background-color: black;
+    color: red;
+}
+
+#regularTheme:focus {
+    box-shadow: 0 0 10px 4px #FFFF00;
+}
+
+#synthTheme {
+    background-color: rgba(0, 0, 0, .0);
+    color: rgb(39, 228, 227);
+    text-shadow: 0 0 10px white;
+    box-shadow: 0 0 10px 4px #D30CB8;
+}
+
+#synthTheme:focus {
+    box-shadow: 0 0 10px 4px #FFFF00;
 }
 
 img {
     height: 100px;
     width: 100px;
+}
+
+.regBg {
+    background-image: url(../img/greenBackground.jpg);
+}
+
+.synthBg {
+    background-image: url(../img/synth_theme/synthwave_bg.jpg);
+}
+
+.gameTileSynth {
+    background-color: black;
+    box-shadow: 0 0 10px 4px #D30CB8 inset;
+}
+
+.toMoveSynth {
+    box-shadow: 0 0 10px 4px rgb(39, 228, 227) inset;
+}
+
+.noAccessSynth {
+    background-color: white;
+    box-shadow: 0 0 10px 4px #D30CB8 inset;
 }

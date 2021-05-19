@@ -6,10 +6,25 @@ window.addEventListener("DOMContentLoaded", () => {
     let enemiesLoc = []
     let playerTurn = "blk"
     
+    // themeing variables
+    let bgSelector = document.querySelector("body")
+    let playableGameTile = "gameTile"
+    let noAccessGameTile = "noAccess"
+    let redPieceImg = "./img/redPiece.png"
+    let redKingPieceImg = "./img/redPieceKinged.png"
+    let blkPieceImg = "./img/blkPiece.png"
+    let blkKingPieceImg = "./img/blkPieceKinged.png"
+    let toMoveStyle = "toMove"
+
+    // setup event listener for theme buttons
+    document.querySelector("#regularTheme").addEventListener("click", gameTheme)
+    document.querySelector("#synthTheme").addEventListener("click", gameTheme)
+    
     // setup play button
     document.getElementById("playButton").addEventListener("click", startButton)
 
-    setupGameBoard()
+    // TEST
+    // setupGameBoard()
 
     // track amount of pieces on the board
     let red = document.getElementsByClassName("red").length
@@ -19,6 +34,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("player1").innerText = `Black Pieces: ${blk}`
     document.getElementById("player2").innerText = `Red Pieces: ${red}`
+
     
     // ~ FUNCTIONS ~ //
 
@@ -48,14 +64,14 @@ window.addEventListener("DOMContentLoaded", () => {
                 if (j % 2 == i % 2) {
                     // appendChild div with id for it's position on the board and class gameTile and setup player piece
                     newDiv.id = tilesArr.length
-                    newDiv.className = "gameTile"
+                    newDiv.className = playableGameTile
                     tilesArr.push(newDiv)
                     boardContainer.appendChild(newDiv)
                     setupPieces(newDiv)
                 } else {
                     // appendChild div with class noAccess and 
                     newDiv.id = tilesArr.length
-                    newDiv.className = "noAccess"
+                    newDiv.className = noAccessGameTile
                     tilesArr.push(newDiv)
                     boardContainer.appendChild(newDiv)
                 }
@@ -70,11 +86,11 @@ window.addEventListener("DOMContentLoaded", () => {
         // reds on top half, blk on bottom half
         if (tilesArr.length < 24) {
             // red pieces
-            newImg.src = "./img/synth_theme/redPiece.png"
+            newImg.src = redPieceImg
             newImg.className = "red"
         } else if (tilesArr.length > 40) {
             // black pieces
-            newImg.src = "./img/synth_theme/blkPiece.png"
+            newImg.src = blkPieceImg
             newImg.className = "blk"
         } else {
             return
@@ -125,15 +141,15 @@ window.addEventListener("DOMContentLoaded", () => {
             for(let i = 0; i < mvDirArr.length; i++) {
                 if(tilesArr[mvDirArr[i]] == null) {
                     continue
-                } else if(tilesArr[mvDirArr[i]].className == "gameTile" && tilesArr[mvDirArr[i]].firstChild == null) {
+                } else if(tilesArr[mvDirArr[i]].className == playableGameTile && tilesArr[mvDirArr[i]].firstChild == null) {
                     movesAvail.push(tilesArr[mvDirArr[i]])
-                } else if(tilesArr[mvDirArr[i]].className == "gameTile" && tilesArr[mvDirArr[i]].firstChild != null && tilesArr[mvDirArr[i]].firstChild.className != target.path[0].className) {
+                } else if(tilesArr[mvDirArr[i]].className == playableGameTile && tilesArr[mvDirArr[i]].firstChild != null && tilesArr[mvDirArr[i]].firstChild.className != target.path[0].className) {
                     // space is occupied by enemy
                     // double distance to see if spot past enemy is open
                     console.log(tilesArr[mvDirArr[i] + directionalArr[i]]) // DELETE
                     if(tilesArr[mvDirArr[i] + directionalArr[i]] == null) {
                         continue
-                    } else if(tilesArr[mvDirArr[i] + directionalArr[i]].className == "gameTile" && tilesArr[mvDirArr[i] + directionalArr[i]].firstChild == null) {
+                    } else if(tilesArr[mvDirArr[i] + directionalArr[i]].className == playableGameTile && tilesArr[mvDirArr[i] + directionalArr[i]].firstChild == null) {
                         movesAvail.push(tilesArr[mvDirArr[i] + directionalArr[i]])
                         // push enemy object and location to an array
                         enemiesToJump.push(tilesArr[mvDirArr[i]].firstChild)
@@ -203,19 +219,42 @@ window.addEventListener("DOMContentLoaded", () => {
     function divEventRemove() {
         for(let i = 0; i < tilesArr.length; i++) {
             tilesArr[i].removeEventListener("click", divEventAdd, true)
-            tilesArr[i].classList.remove("toMove")
+            tilesArr[i].classList.remove(toMoveStyle)
         }
     }
 
     function availableLocations(movesAvail) {
         for(let i = 0; i < movesAvail.length; i++) {
-            movesAvail[i].classList.add("toMove")
+            movesAvail[i].classList.add(toMoveStyle)
         }
     }
 
     function startButton() {
         // change gameStart style display to none
         document.getElementById("gameStart").style.display = "none"
+        setupGameBoard()
+    }
+
+    function gameTheme(themeChoice) {
+        if (themeChoice.path[0].value == "synth") {
+            bgSelector.className = "synthBg"
+            playableGameTile = "gameTileSynth"
+            noAccessGameTile = "noAccessSynth"
+            redPieceImg = "./img/synth_theme/redPiece.png"
+            redKingPieceImg = "./img/synth_theme/redPieceKinged.png"
+            blkPieceImg = "./img/synth_theme/blkPiece.png"
+            blkKingPieceImg = "./img/synth_theme/blkPieceKinged.png"
+            toMoveStyle = "toMoveSynth"
+        } else {
+            bgSelector.className = "regBg"
+            playableGameTile = "gameTile"
+            noAccessGameTile = "noAccess"
+            redPieceImg = "./img/redPiece.png"
+            redKingPieceImg = "./img/redPieceKinged.png"
+            blkPieceImg = "./img/blkPiece.png"
+            blkKingPieceImg = "./img/blkPieceKinged.png"
+            toMoveStyle = "toMove"
+        }
     }
 })
 

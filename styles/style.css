@@ -4,7 +4,7 @@
 }
 
 body {
-    background-image: url(../img/synthwave_bg.jpg);
+    background-image: url(../img/synth_theme/synthwave_bg.jpg);
     background-size: cover;
     color: white;
 }
@@ -82,4 +82,9 @@ button {
 
 .toMove {
     box-shadow: 0 0 10px 4px rgb(39, 228, 227) inset;
+}
+
+img {
+    height: 100px;
+    width: 100px;
 }

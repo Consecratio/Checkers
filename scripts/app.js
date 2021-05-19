@@ -70,11 +70,11 @@ window.addEventListener("DOMContentLoaded", () => {
         // reds on top half, blk on bottom half
         if (tilesArr.length < 24) {
             // red pieces
-            newImg.src = "./img/redPiece.png"
+            newImg.src = "./img/synth_theme/redPiece.png"
             newImg.className = "red"
         } else if (tilesArr.length > 40) {
             // black pieces
-            newImg.src = "./img/blkPiece.png"
+            newImg.src = "./img/synth_theme/blkPiece.png"
             newImg.className = "blk"
         } else {
             return
@@ -143,7 +143,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
             
             if(movesAvail.length == 0){
-                alert("That piece has no moves available. ") // DELETE
+                alert("That piece has no moves available.") // DELETE
             } else {
                 pieceToMove = target.path[0]
                 availableLocations(movesAvail)

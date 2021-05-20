@@ -20,29 +20,23 @@ window.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#regularTheme").addEventListener("click", gameTheme)
     document.querySelector("#synthTheme").addEventListener("click", gameTheme)
     
-    // setup play button
+    // setup push to start
     document.getElementById("playButton").addEventListener("click", startButton)
-
-    // TEST
-    // setupGameBoard()
 
     // track amount of pieces on the board
     let red = document.getElementsByClassName("red").length
-    console.log(`Number of Red pieces: ${red}`) // DELETE
     let blk = document.getElementsByClassName("blk").length
-    console.log(`Number of Blk pieces: ${blk}`) // DELETE
-
-    document.getElementById("player1").innerText = `Black Pieces: ${blk}`
-    document.getElementById("player2").innerText = `Red Pieces: ${red}`
 
     
+    
     // ~ FUNCTIONS ~ //
-
+    
     function trackScore() {
+        // used to update scores
         red = document.getElementsByClassName("red").length
-        console.log(`Number of Red pieces: ${red}`) // DELETE
+        document.getElementById("player2").innerText = `Red Pieces: ${red}`
         blk = document.getElementsByClassName("blk").length
-        console.log(`Number of Blk pieces: ${blk}`) // DELETE
+        document.getElementById("player1").innerText = `Black Pieces: ${blk}`
 
         if(red == 0) {
             document.getElementById("winningPlayer").innerText = "Black wins!"
@@ -104,23 +98,28 @@ window.addEventListener("DOMContentLoaded", () => {
         // clear board of event listeners to stop player from moving to location they can't move to
         divEventRemove()
         if(target.path[0].classList.contains(playerTurn)) {
+            // this prevents chips from being "ghost jumped" bug that caused
+            // chips that were previously able to be jumped but weren't to be jumped
+            // by any chip moving to that location. (Previously under enemiesToJump[i].remove() in the divEventRemove())
+            enemiesToJump = []
+            enemiesLoc = []
+
             // find location on board
             let loc = Number(target.path[1].id)
     
             // possible movements
             let directionalArr = [-7, -9, 9, 7]
-            // TEST - might not be needed
+            // MSG2SELF - could be refactored
             let mvUpRight = loc - 7
             let mvUpLeft = loc - 9
             let mvDownRight = loc + 9
             let mvDownLeft = loc + 7
-            // ETST - might not be needed
+            // ENDMSG2SELF - could be refactored
             let mvDirArr = []
             let dblMvDirArr = []
             let movesAvail = []
-    
-            // check if piece is kinged
-            // TEST - was originally = false, will now get set to the return of function isKinged()
+
+            // checking if piece is kinged
             let pieceKinged = isKinged(loc, target.path[0])
     
             if(pieceKinged == false && target.path[0].classList.contains('red')) {
@@ -132,7 +131,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 mvDirArr = [mvUpRight, mvUpLeft]
                 dblMvDirArr = [mvUpRight, mvUpLeft]
             } else {
-                // TEST - this will handle the pieces being kinged
+                // this will handle the pieces being kinged
                 mvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
                 dblMvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
             }
@@ -146,7 +145,6 @@ window.addEventListener("DOMContentLoaded", () => {
                 } else if(tilesArr[mvDirArr[i]].className == playableGameTile && tilesArr[mvDirArr[i]].firstChild != null && tilesArr[mvDirArr[i]].firstChild.className != target.path[0].className) {
                     // space is occupied by enemy
                     // double distance to see if spot past enemy is open
-                    console.log(tilesArr[mvDirArr[i] + directionalArr[i]]) // DELETE
                     if(tilesArr[mvDirArr[i] + directionalArr[i]] == null) {
                         continue
                     } else if(tilesArr[mvDirArr[i] + directionalArr[i]].className == playableGameTile && tilesArr[mvDirArr[i] + directionalArr[i]].firstChild == null) {
@@ -159,13 +157,11 @@ window.addEventListener("DOMContentLoaded", () => {
             }
             
             if(movesAvail.length == 0){
-                alert("That piece has no moves available.") // DELETE
+                alert("That piece has no moves available.")
             } else {
                 pieceToMove = target.path[0]
                 availableLocations(movesAvail)
             }
-    
-            console.log(movesAvail) // TEST - printout to see if movesAvail is correct
     
             // iterate through movesAvail and setup event listeners
             for(let i = 0; i < movesAvail.length; i++) {
@@ -180,11 +176,9 @@ window.addEventListener("DOMContentLoaded", () => {
         for(let i = 0; i < enemiesLoc.length; i++) {
             if(newTarget.path[0] == enemiesLoc[i]) {
                 enemiesToJump[i].remove()
-                enemiesToJump = []
-                enemiesLoc = []
             }
         }
-
+        
         // change player's turn
         if(playerTurn == "blk") {
             playerTurn = "red"
@@ -201,15 +195,16 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function isKinged(loc, piece) {
         if(piece.classList.contains("kinged")) {
-            console.log("Blk was already kinged") // DELETE
             return true
         }
         if(piece.className == "blk" && loc < 7) {
-            console.log("BLK KINGED") // DELETE
+            // change piece image to kinged image
+            piece.src = blkKingPieceImg
             piece.classList.add("kinged")
             return true
         } else if(piece.className == "red" && loc > 56) {
-            console.log("RED KINGED") // DELETE
+            // change piece image to kinged image
+            piece.src = redKingPieceImg
             piece.classList.add("kinged")
             return true
         }
@@ -233,6 +228,7 @@ window.addEventListener("DOMContentLoaded", () => {
         // change gameStart style display to none
         document.getElementById("gameStart").style.display = "none"
         setupGameBoard()
+        trackScore()
     }
 
     function gameTheme(themeChoice) {

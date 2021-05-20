@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,800&display=swap');
+
 * {
     margin: 0 auto;
     text-align: center;
@@ -113,6 +115,11 @@ img {
 
 .regBg {
     background-image: url(../img/greenBackground.jpg);
+    background-size: 400px;
+}
+
+.regH1 {
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .synthBg {
@@ -131,4 +138,14 @@ img {
 .noAccessSynth {
     background-color: white;
     box-shadow: 0 0 10px 4px #D30CB8 inset;
+}
+
+.synthH1 {
+    text-transform: uppercase;
+	background: linear-gradient(to top, #FFFFFF 0%, #FFFFFF 20%, #38E8FB 30%, #0058A7 40%, #021B49 45%, #021B49 50%, #FFFFFF 55%, #FFFFFF 60%, #38E8FB 65%, #0058A7 75%, #021B49 80%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-text-stroke: 3px rgb(255, 90, 223);
+	font-size: 80px;
+    font-family: 'Montserrat', cursive;
 }

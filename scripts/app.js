@@ -15,6 +15,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let blkPieceImg = "./img/blkPiece.png"
     let blkKingPieceImg = "./img/blkPieceKinged.png"
     let toMoveStyle = "toMove"
+    let h1Selector = document.querySelector("h1")
 
     // setup event listener for theme buttons
     document.querySelector("#regularTheme").addEventListener("click", gameTheme)
@@ -241,6 +242,7 @@ window.addEventListener("DOMContentLoaded", () => {
             blkPieceImg = "./img/synth_theme/blkPiece.png"
             blkKingPieceImg = "./img/synth_theme/blkPieceKinged.png"
             toMoveStyle = "toMoveSynth"
+            h1Selector.className = "synthH1"
         } else {
             bgSelector.className = "regBg"
             playableGameTile = "gameTile"
@@ -250,6 +252,7 @@ window.addEventListener("DOMContentLoaded", () => {
             blkPieceImg = "./img/blkPiece.png"
             blkKingPieceImg = "./img/blkPieceKinged.png"
             toMoveStyle = "toMove"
+            h1Selector.className = "regH1"
         }
     }
 })

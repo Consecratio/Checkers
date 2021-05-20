@@ -117,7 +117,6 @@ window.addEventListener("DOMContentLoaded", () => {
             let mvDownLeft = loc + 7
             // ENDMSG2SELF - could be refactored
             let mvDirArr = []
-            let dblMvDirArr = []
             let movesAvail = []
 
             // checking if piece is kinged
@@ -125,16 +124,13 @@ window.addEventListener("DOMContentLoaded", () => {
     
             if(pieceKinged == false && target.path[0].classList.contains('red')) {
                 mvDirArr = [mvDownRight, mvDownLeft]
-                dblMvDirArr = [mvDownRight, mvDownLeft]
                 // flip directionalArr
                 directionalArr = [directionalArr[2], directionalArr[3], directionalArr[0], directionalArr[1]]
             } else if(pieceKinged == false && target.path[0].classList.contains('blk')) {
                 mvDirArr = [mvUpRight, mvUpLeft]
-                dblMvDirArr = [mvUpRight, mvUpLeft]
             } else {
                 // this will handle the pieces being kinged
                 mvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
-                dblMvDirArr = [mvUpRight, mvUpLeft, mvDownRight, mvDownLeft]
             }
     
             // find available moves

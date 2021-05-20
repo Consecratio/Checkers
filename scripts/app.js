@@ -143,7 +143,7 @@ window.addEventListener("DOMContentLoaded", () => {
                     continue
                 } else if(tilesArr[mvDirArr[i]].className == playableGameTile && tilesArr[mvDirArr[i]].firstChild == null) {
                     movesAvail.push(tilesArr[mvDirArr[i]])
-                } else if(tilesArr[mvDirArr[i]].className == playableGameTile && tilesArr[mvDirArr[i]].firstChild != null && tilesArr[mvDirArr[i]].firstChild.className != target.path[0].className) {
+                } else if(tilesArr[mvDirArr[i]].className == playableGameTile && tilesArr[mvDirArr[i]].firstChild != null && tilesArr[mvDirArr[i]].firstChild.classList[0] != target.path[0].classList[0]) {
                     // space is occupied by enemy
                     // double distance to see if spot past enemy is open
                     if(tilesArr[mvDirArr[i] + directionalArr[i]] == null) {
@@ -256,12 +256,3 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 })
-
-// MVP
-// [X] A functional menu for starting the game
-// [X] Having win conditions
-// [X] Having players "consume" or "jump" enemy pieces
-// [X] Limiting player movements so player cannot go out of bounds of the board,
-//    or to a space they shouldn't be allowed to occupy (like moving backwards at the beginning)
-// [X] Allowing players to be "Kinged" to let their pieces go in reverse direction
-// [X] Alternating turns between Player 1 and Player 2

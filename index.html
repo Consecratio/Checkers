@@ -10,7 +10,7 @@
     <div id="gameOver" class="gameMessages">
         <div>GAME OVER</div>
         <div id="winningPlayer"></div>
-        <button onclick="window.location.reload()">Play Again</button>
+        <button id="resetButton">Play Again</button>
     </div>
     <div id="gameStart" class="gameMessages">
         <div>Pick Theme</div>
@@ -24,6 +24,10 @@
     <div class="scores">
         <p id="player1"></p>
         <p id="player2"></p>
+    </div>
+    <div class="wins">
+        <p>Black Wins: <span id="p1Wins">0</span></p>
+        <p>Red Wins: <span id="p2Wins">0</span></p>
     </div>
     <div id="container">
 

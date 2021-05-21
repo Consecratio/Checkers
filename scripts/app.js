@@ -5,6 +5,8 @@ window.addEventListener("DOMContentLoaded", () => {
     let enemiesToJump = []
     let enemiesLoc = []
     let playerTurn = "blk"
+    let redWins = 0 // should only reset when page is reloaded, not by resetButton()
+    let blkWins = 0 // should only reset when page is reloaded, not by resetButton()
     
     // themeing variables
     let bgSelector = document.querySelector("body")
@@ -24,6 +26,9 @@ window.addEventListener("DOMContentLoaded", () => {
     // setup push to start
     document.getElementById("playButton").addEventListener("click", startButton)
 
+    // setup reset button
+    document.getElementById("resetButton").addEventListener("click", resetButton)
+
     // track amount of pieces on the board
     let red = document.getElementsByClassName("red").length
     let blk = document.getElementsByClassName("blk").length
@@ -31,6 +36,38 @@ window.addEventListener("DOMContentLoaded", () => {
     
     
     // ~ FUNCTIONS ~ //
+
+    function resetButton() {
+        // remove all previous images and divs
+        clearGameBoard()
+
+        // reset global variables
+        tilesArr = []
+        pieceToMove = null
+        enemiesToJump = []
+        enemiesLoc = []
+        playerTurn = "blk"
+
+        // reset all images and divs
+        setupGameBoard()
+
+        // reset score counter
+        trackScore()
+
+        // update wins
+        document.getElementById("p1Wins").innerText = blkWins
+        document.getElementById("p2Wins").innerText = redWins
+
+        // turn off gameOver screen
+        document.getElementById("gameOver").style.display = "none"
+    }
+
+    function clearGameBoard() {
+        for (let i = 0; i < tilesArr.length; i++) {
+            // loop through tile divs and remove them
+            tilesArr[i].remove()
+        }
+    }
     
     function trackScore() {
         // used to update scores
@@ -42,9 +79,11 @@ window.addEventListener("DOMContentLoaded", () => {
         if(red == 0) {
             document.getElementById("winningPlayer").innerText = "Black wins!"
             document.getElementById("gameOver").style.display = "flex"
+            blkWins++
         } else if(blk == 0) {
             document.getElementById("winningPlayer").innerText = "Red wins!"
             document.getElementById("gameOver").style.display = "flex"
+            redWins++
         }
     }
     

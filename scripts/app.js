@@ -136,6 +136,8 @@ window.addEventListener("DOMContentLoaded", () => {
             // find available moves
             for(let i = 0; i < mvDirArr.length; i++) {
                 if(tilesArr[mvDirArr[i]] == null) {
+                    // if the space is not valid (out of bounds) skip
+                    // the rest if statements and continue with the loop
                     continue
                 } else if(tilesArr[mvDirArr[i]].className == playableGameTile && tilesArr[mvDirArr[i]].firstChild == null) {
                     movesAvail.push(tilesArr[mvDirArr[i]])

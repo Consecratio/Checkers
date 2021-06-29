@@ -1,4 +1,4 @@
-# Project-1
+# Checkers
 First project for Bootcamp
 
 ## Idea Overview
